@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Movie Night?</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+           display:flex; min-height:100vh; align-items:center; justify-content:center;
+           margin:0; background:#0b0f1a; color:#eaf0ff; }
+    .card { width:min(520px, 92vw); background:rgba(255,255,255,0.06);
+            border:1px solid rgba(255,255,255,0.12); border-radius:18px;
+            padding:28px; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.35); }
+    h1 { margin:0 0 10px; font-size:28px; }
+    p  { margin:0 0 18px; opacity:0.9; }
+    .btns { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+    button { font-size:16px; padding:12px 18px; border-radius:12px; border:0;
+             cursor:pointer; transition:transform .08s ease; }
+    button:active { transform:scale(0.98); }
+    .yes { background:#35d07f; color:#07130c; font-weight:700; }
+    .no  { background:#ff5d6c; color:#22060a; font-weight:700; }
+    .msg { margin-top:16px; font-size:18px; min-height:28px; }
+    .tiny { margin-top:10px; font-size:12px; opacity:0.7; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Movie night? 🍿</h1>
+    <p>Can you watch a movie tonight with me?</p>
+
+    <div class="btns">
+      <button class="yes" onclick="sayYes()">Yes 💚</button>
+      <button class="no" onclick="sayNo()">No 🙈</button>
+    </div>
+
+    <div class="msg" id="msg"></div>
+    <div class="tiny">Tip: bookmark this page 😄</div>
+  </div>
+
+  <script>
+    function sayYes() {
+      document.getElementById("msg").textContent =
+        "Yay!! I’ll pick a good one 😌🎬 What time works for you?";
+    }
+
+    function sayNo() {
+      document.getElementById("msg").textContent =
+        "Okayyy 😭 When’s a better night? I still want movie time with you.";
+    }
+  </script>
+</body>
+</html>
