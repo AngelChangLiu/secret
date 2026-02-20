@@ -62,7 +62,9 @@
       padding: 26px 22px;
       text-align:center;
       position:relative;
-      overflow:hidden;
+
+      /* ✅ IMPORTANT FIX: do NOT clip runaway buttons */
+      overflow: visible;
     }
 
     h1{
@@ -118,8 +120,10 @@
       transition: transform .08s ease, left .18s ease, top .18s ease;
       user-select:none;
       box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+
+      /* keep above layers by default */
       position: relative;
-      z-index: 99999; /* ALWAYS above layers */
+      z-index: 99999;
     }
     button:active{ transform: scale(0.98); }
 
@@ -187,6 +191,7 @@
       position: relative;
       height: 170px;
       margin-top: 6px;
+      overflow: visible; /* ✅ also don’t clip inside this area */
     }
     .answerBtn{
       position:absolute;
@@ -205,6 +210,7 @@
       position:relative;
       height: 130px;
       margin-top: 10px;
+      overflow: visible;
     }
     #yesBtn{
       background:#ffffff;
@@ -303,8 +309,8 @@
     // ===================================
     // EDIT THESE CODES
     // ===================================
-    const SECRET_CODE_1 = "1234";        // <-- change Gate 1 code here
-    const SECRET_CODE_2 = "1234082323";  // <-- fixed per your request
+    const SECRET_CODE_1 = "12345";       // ✅ changed per your request
+    const SECRET_CODE_2 = "1234082323";  // fixed per your request
 
     // ===================================
     // TRIVIA CONFIG
@@ -470,7 +476,7 @@
       fadeToScene(sceneQOnly, sceneQAnswers);
     });
 
-    // Dodge for wrong answers on Q1 and Q3 (slower dodge movement)
+    // Dodge for wrong answers on Q1 and Q3
     function moveButtonAway(btn){
       const pad = 12;
       const rect = btn.getBoundingClientRect();
@@ -534,7 +540,7 @@
             stage = "only";
             renderQOnly();
             fadeToScene(sceneQAnswers, sceneQOnly);
-          }, 2000); // slower
+          }, 2000);
           return;
         }
 
@@ -561,7 +567,7 @@
     enterBtn2.addEventListener("click", checkGate2);
     codeInput2.addEventListener("keydown", (e)=>{ if(e.key==="Enter") checkGate2(); });
 
-    // Movie: No button runs away
+    // Movie: No button runs away (stays inside the card area)
     function moveNoButton(){
       const areaRect = movieArea.getBoundingClientRect();
       const btnRect = noBtn.getBoundingClientRect();
@@ -620,7 +626,7 @@
       }
 
       const start = performance.now();
-      const duration = 4200; // longer
+      const duration = 4200;
 
       if(confettiAnim) cancelAnimationFrame(confettiAnim);
 
