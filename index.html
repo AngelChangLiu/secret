@@ -1,662 +1,411 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>🐊💕 Secret Portal</title>
-  <style>
-    :root{
-      --pink1:#ff7eb3;
-      --pink2:#ff4fa0;
-      --pink3:#ff9ad0;
-      --white:#ffffff;
-      --glass: rgba(255,255,255,0.16);
-      --glass2: rgba(255,255,255,0.10);
-      --shadow: 0 18px 60px rgba(0,0,0,0.25);
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>🐊💕 Secret Portal</title>
 
-    *{ box-sizing:border-box; }
-    body{
-      margin:0;
-      min-height:100vh;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(1200px 900px at 20% 10%, var(--pink3), transparent 60%),
-                  radial-gradient(1200px 900px at 80% 90%, #ffd1ea, transparent 55%),
-                  linear-gradient(135deg, var(--pink1), var(--pink2));
-      color: var(--white);
-      overflow:hidden;
-    }
+<style>
+:root{
+  --pink1:#ff7eb3;
+  --pink2:#ff4fa0;
+  --pink3:#ff9ad0;
+  --white:#ffffff;
+  --glass: rgba(255,255,255,0.16);
+  --glass2: rgba(255,255,255,0.10);
+  --shadow: 0 18px 60px rgba(0,0,0,0.25);
+}
 
-    /* Hearts behind content; content above; confetti top */
-    #heartsLayer{
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      z-index: 1;
-      display:none;
-    }
-    .wrap{
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:24px;
-      position:relative;
-      z-index: 2;
-    }
-    #confetti{
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      z-index: 99998;
-      display:none;
-    }
+*{ box-sizing:border-box; }
 
-    .card{
-      width:min(820px, 94vw);
-      border:1px solid rgba(255,255,255,0.25);
-      background: linear-gradient(180deg, var(--glass), var(--glass2));
-      backdrop-filter: blur(10px);
-      border-radius: 22px;
-      box-shadow: var(--shadow);
-      padding: 26px 22px;
-      text-align:center;
-      position:relative;
+body{
+  margin:0;
+  min-height:100vh;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background:
+    radial-gradient(1200px 900px at 20% 10%, var(--pink3), transparent 60%),
+    radial-gradient(1200px 900px at 80% 90%, #ffd1ea, transparent 55%),
+    linear-gradient(135deg, var(--pink1), var(--pink2));
+  color:white;
+  overflow:hidden;
+}
 
-      /* ✅ IMPORTANT FIX: do NOT clip runaway buttons */
-      overflow: visible;
-    }
+#heartsLayer{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:1;
+  display:none;
+}
 
-    h1{
-      margin:0 0 10px;
-      font-size: clamp(22px, 3.2vw, 40px);
-      letter-spacing: 0.2px;
-    }
+.wrap{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  position:relative;
+  z-index:2;
+}
 
-    .sub{
-      margin:0 0 16px;
-      opacity:0.95;
-      font-size: clamp(14px, 2vw, 18px);
-      line-height: 1.45;
-    }
+#confetti{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:99998;
+  display:none;
+}
 
-    .croc{
-      font-size: 20px;
-      letter-spacing: 6px;
-      margin: 8px 0 18px;
-      opacity: 0.95;
-      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.18));
-      user-select:none;
-    }
+.card{
+  width:min(820px,94vw);
+  border:1px solid rgba(255,255,255,0.25);
+  background: linear-gradient(180deg, var(--glass), var(--glass2));
+  backdrop-filter: blur(10px);
+  border-radius:22px;
+  box-shadow: var(--shadow);
+  padding:26px 22px;
+  text-align:center;
+  position:relative;
+  overflow:visible; /* important */
+}
 
-    .row{
-      display:flex;
-      gap:10px;
-      justify-content:center;
-      flex-wrap:wrap;
-      margin-top: 8px;
-    }
+h1{
+  margin:0 0 10px;
+  font-size: clamp(22px,3.2vw,40px);
+}
 
-    input{
-      width: min(380px, 84vw);
-      padding: 12px 14px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.35);
-      background: rgba(255,255,255,0.20);
-      color: white;
-      outline:none;
-      font-size: 16px;
-      text-align:center;
-    }
-    input::placeholder{ color: rgba(255,255,255,0.85); }
+.sub{
+  font-size: clamp(14px,2vw,18px);
+  margin-bottom:16px;
+}
 
-    button{
-      padding: 12px 16px;
-      border-radius: 14px;
-      border: 0;
-      cursor:pointer;
-      font-weight: 900;
-      font-size: 16px;
-      transition: transform .08s ease, left .18s ease, top .18s ease;
-      user-select:none;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+.croc{
+  font-size:20px;
+  letter-spacing:6px;
+  margin-bottom:16px;
+}
 
-      /* keep above layers by default */
-      position: relative;
-      z-index: 99999;
-    }
-    button:active{ transform: scale(0.98); }
+.row{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
 
-    .btn{
-      background: rgba(255,255,255,0.92);
-      color: #b0125f;
-    }
+input{
+  padding:12px;
+  border-radius:14px;
+  border:none;
+  text-align:center;
+  background:rgba(255,255,255,0.2);
+  color:white;
+}
 
-    .hint{
-      margin-top: 12px;
-      font-size: 16px;
-      opacity: 0.95;
-      min-height: 26px;
-      padding: 0 10px;
-    }
+button{
+  padding:12px 16px;
+  border-radius:14px;
+  border:none;
+  font-weight:900;
+  cursor:pointer;
+  position:relative;
+  z-index:99999;
+  box-shadow:0 12px 30px rgba(0,0,0,0.18);
+}
 
-    .small{
-      margin-top: 10px;
-      font-size: 12px;
-      opacity:0.82;
-    }
+.btn{
+  background:white;
+  color:#b0125f;
+}
 
-    /* scenes */
-    .scene{ display:none; }
-    .scene.active{ display:block; }
+.scene{ display:none; }
+.scene.active{ display:block; }
 
-    /* slower fade transitions */
-    .fade{ animation: fadeIn 1.3s ease forwards; }
-    .fadeOut{ animation: fadeOut 1.3s ease forwards; }
-    @keyframes fadeIn{
-      from{ opacity:0; transform: translateY(10px); }
-      to{ opacity:1; transform: translateY(0); }
-    }
-    @keyframes fadeOut{
-      from{ opacity:1; transform: translateY(0); }
-      to{ opacity:0; transform: translateY(-10px); }
-    }
+.fade{ animation:fadeIn 1.3s ease forwards; }
+.fadeOut{ animation:fadeOut 1.3s ease forwards; }
 
-    /* slower hearts */
-    .heart{
-      position:absolute;
-      font-size: 18px;
-      opacity:0;
-      animation: floatHeart 7.5s ease-in forwards;
-      filter: drop-shadow(0 10px 14px rgba(0,0,0,0.20));
-    }
-    @keyframes floatHeart{
-      0%   { transform: translateY(0) scale(0.9); opacity:0; }
-      18%  { opacity:0.95; }
-      100% { transform: translateY(-260px) scale(1.35); opacity:0; }
-    }
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(10px);}
+  to{opacity:1; transform:translateY(0);}
+}
+@keyframes fadeOut{
+  from{opacity:1;}
+  to{opacity:0;}
+}
 
-    /* Trivia layout */
-    .questionOnly{
-      font-size: clamp(24px, 3.4vw, 44px);
-      line-height: 1.15;
-      margin: 14px 0 10px;
-    }
-    .questionTop{
-      font-size: clamp(18px, 2.2vw, 28px);
-      margin: 6px 0 16px;
-      opacity: 0.98;
-    }
-    .answersArea{
-      position: relative;
-      height: 170px;
-      margin-top: 6px;
-      overflow: visible; /* ✅ also don’t clip inside this area */
-    }
-    .answerBtn{
-      position:absolute;
-      min-width: min(320px, 86vw);
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255,255,255,0.92);
-      color:#b0125f;
-      z-index: 99999;
-    }
-    #aBtn{ top: 16px; }
-    #bBtn{ top: 92px; }
+.heart{
+  position:absolute;
+  font-size:18px;
+  opacity:0;
+  animation:floatHeart 7s ease-in forwards;
+}
 
-    /* Movie */
-    .movieBtns{
-      position:relative;
-      height: 130px;
-      margin-top: 10px;
-      overflow: visible;
-    }
-    #yesBtn{
-      background:#ffffff;
-      color:#b0125f;
-    }
-    #noBtn{
-      position:absolute;
-      left: 58%;
-      top: 10px;
-      background: rgba(255,255,255,0.75);
-      color:#b0125f;
-      z-index: 99999;
-    }
-  </style>
+@keyframes floatHeart{
+  0%{opacity:0; transform:translateY(0);}
+  15%{opacity:1;}
+  100%{opacity:0; transform:translateY(-260px);}
+}
+
+.answerBtn{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  background:white;
+  color:#b0125f;
+}
+
+#aBtn{ top:16px; }
+#bBtn{ top:92px; }
+
+.movieBtns{
+  position:relative;
+  height:140px;
+}
+
+#noBtn{
+  position:absolute;
+  left:58%;
+  top:10px;
+}
+</style>
 </head>
 
 <body>
-  <canvas id="confetti"></canvas>
-  <div id="heartsLayer"></div>
-
-  <div class="wrap">
-    <div class="card">
-
-      <!-- SCENE 1: GATE 1 -->
-      <div id="sceneGate1" class="scene active fade">
-        <h1>Hello Michele Harianto 💕</h1>
-        <div class="croc">🐊 🐊 🐊</div>
-        <p class="sub">Please enter the code below 🐊</p>
-
-        <div class="row">
-          <input id="codeInput1" placeholder="enter secret code" autocomplete="off" />
-          <button class="btn" id="enterBtn1">Enter</button>
-        </div>
-
-        <div class="hint" id="gateHint1"></div>
-        <div class="small">🐊💕 (Ask me for the code)</div>
-      </div>
-
-      <!-- SCENE 1.5: TRIVIA INTRO -->
-      <div id="sceneIntro" class="scene">
-        <div class="croc">🐊 💕 🐊</div>
-        <h1>Okay we're going to play a little game (Trivia!)</h1>
-        <div class="small">tap to continue</div>
-      </div>
-
-      <!-- SCENE 2: TRIVIA - Q ONLY -->
-      <div id="sceneQOnly" class="scene">
-        <div class="croc">🐊 💕 🐊</div>
-        <div class="questionOnly" id="qOnlyText"></div>
-        <div class="small">tap to continue</div>
-      </div>
-
-      <!-- SCENE 3: TRIVIA - Q + ANSWERS -->
-      <div id="sceneQAnswers" class="scene">
-        <div class="questionTop" id="qTopText"></div>
-        <div class="answersArea" id="answersArea">
-          <button class="answerBtn" id="aBtn"></button>
-          <button class="answerBtn" id="bBtn"></button>
-        </div>
-        <div class="hint" id="triviaHint"></div>
-        <div class="small">tap an answer</div>
-      </div>
-
-      <!-- SCENE 4: THANK YOU + GATE 2 -->
-      <div id="sceneGate2" class="scene">
-        <h1>Okay thank you for playing! 💕🐊</h1>
-        <p class="sub">This is my first time doing this and I'm very proud of it.<br>
-          Please enter the secret code from Angel after you guys talk...
-        </p>
-
-        <div class="row">
-          <input id="codeInput2" placeholder="enter secret code" autocomplete="off" />
-          <button class="btn" id="enterBtn2">Enter</button>
-        </div>
-
-        <div class="hint" id="gateHint2"></div>
-      </div>
-
-      <!-- SCENE 5: MOVIE -->
-      <div id="sceneMovie" class="scene">
-        <h1>Movie night? 🍿🐊</h1>
-        <p class="sub">Can you watch a movie tonight with me?</p>
-
-        <div class="movieBtns" id="movieArea">
-          <button id="yesBtn">Yes 💚</button>
-          <button id="noBtn">No 🙈</button>
-        </div>
-        <div class="hint" id="movieHint"></div>
-        <div class="small">🐊💕</div>
-      </div>
-
-    </div>
-  </div>
-
-  <script>
-    // ===================================
-    // EDIT THESE CODES
-    // ===================================
-    const SECRET_CODE_1 = "12345";       // ✅ changed per your request
-    const SECRET_CODE_2 = "1234082323";  // fixed per your request
-
-    // ===================================
-    // TRIVIA CONFIG
-    // ===================================
-    const trivia = [
-      {
-        q: "Who is Angel's favorite person in the whole wide world?",
-        correct: "Michele Oey Harianto",
-        wrong: "anybody else",
-        dodgeWrong: true,
-        rightMsg: "Yeah I know 🥰"
-      },
-      {
-        q: "Who does Angel love very very much?",
-        correct: "Michele Oey Harianto",
-        wrong: "His 7 iron.",
-        dodgeWrong: false,
-        rightMsg: "Yes, I love you more than golf 😏"
-      },
-      {
-        q: "Will you please talk to Angel?",
-        correct: "Yes (Pick me!)",
-        wrong: "No",
-        dodgeWrong: true,
-        rightMsg: "🥺💗"
-      }
-    ];
-
-    // Elements
-    const heartsLayer = document.getElementById("heartsLayer");
-
-    const sceneGate1 = document.getElementById("sceneGate1");
-    const sceneIntro = document.getElementById("sceneIntro");
-    const sceneQOnly = document.getElementById("sceneQOnly");
-    const sceneQAnswers = document.getElementById("sceneQAnswers");
-    const sceneGate2 = document.getElementById("sceneGate2");
-    const sceneMovie = document.getElementById("sceneMovie");
-
-    const codeInput1 = document.getElementById("codeInput1");
-    const enterBtn1 = document.getElementById("enterBtn1");
-    const gateHint1 = document.getElementById("gateHint1");
-
-    const qOnlyText = document.getElementById("qOnlyText");
-    const qTopText = document.getElementById("qTopText");
-    const aBtn = document.getElementById("aBtn");
-    const bBtn = document.getElementById("bBtn");
-    const triviaHint = document.getElementById("triviaHint");
-
-    const codeInput2 = document.getElementById("codeInput2");
-    const enterBtn2 = document.getElementById("enterBtn2");
-    const gateHint2 = document.getElementById("gateHint2");
-
-    const yesBtn = document.getElementById("yesBtn");
-    const noBtn = document.getElementById("noBtn");
-    const movieArea = document.getElementById("movieArea");
-    const movieHint = document.getElementById("movieHint");
-
-    // Scene helpers
-    const scenes = [sceneGate1, sceneIntro, sceneQOnly, sceneQAnswers, sceneGate2, sceneMovie];
-
-    function showScene(sceneEl){
-      scenes.forEach(s => {
-        s.classList.remove("active","fade","fadeOut");
-        s.style.display = "none";
-      });
-      sceneEl.style.display = "block";
-      sceneEl.classList.add("active","fade");
-    }
-
-    function fadeToScene(fromEl, toEl){
-      fromEl.classList.remove("fade");
-      fromEl.classList.add("fadeOut");
-      setTimeout(() => showScene(toEl), 1250); // slower
-    }
-
-    // Hearts (slower + fewer)
-    let heartsTimer = null;
-    function startHearts(){
-      heartsLayer.style.display = "block";
-      if(heartsTimer) clearInterval(heartsTimer);
-      heartsTimer = setInterval(spawnHeart, 650); // MUCH slower
-    }
-    function spawnHeart(){
-      const heart = document.createElement("div");
-      heart.className = "heart";
-      const hearts = ["💗","💖","💕","💞","💘","💝"];
-      heart.textContent = hearts[Math.floor(Math.random()*hearts.length)];
-      const x = Math.random() * window.innerWidth;
-      const y = window.innerHeight + 20;
-      const size = 14 + Math.random() * 24;
-      heart.style.left = `${x}px`;
-      heart.style.top = `${y}px`;
-      heart.style.fontSize = `${size}px`;
-      heartsLayer.appendChild(heart);
-      setTimeout(() => heart.remove(), 8200);
-    }
-
-    // Gate 1
-    function resetGate1(messageText=""){
-      gateHint1.textContent = messageText;
-      codeInput1.value = "";
-      codeInput1.focus();
-      showScene(sceneGate1);
-    }
-
-    function checkGate1(){
-      const entered = (codeInput1.value || "").trim();
-      if(entered === SECRET_CODE_1){
-        gateHint1.textContent = "";
-        startHearts();
-        fadeToScene(sceneGate1, sceneIntro);
-      } else {
-        const msg = `I know I'm a stupid butt face, but please ask me for the code I promise it'll be worth it`;
-        gateHint1.textContent = msg;
-        setTimeout(() => resetGate1(""), 2600);
-      }
-    }
-
-    enterBtn1.addEventListener("click", checkGate1);
-    codeInput1.addEventListener("keydown", (e)=>{ if(e.key==="Enter") checkGate1(); });
-
-    // Trivia flow
-    let qi = 0;
-    let stage = "only"; // "only" or "answers"
-
-    function startTrivia(){
-      qi = 0;
-      stage = "only";
-      renderQOnly();
-      fadeToScene(sceneIntro, sceneQOnly);
-    }
-
-    function renderQOnly(){
-      qOnlyText.textContent = trivia[qi].q;
-    }
-
-    function renderQAnswers(){
-      const t = trivia[qi];
-      qTopText.textContent = t.q;
-      triviaHint.textContent = "";
-
-      // Correct = A, Wrong = B
-      aBtn.textContent = t.correct;
-      bBtn.textContent = t.wrong;
-
-      // reset back into card layout each time
-      aBtn.style.position = "absolute";
-      bBtn.style.position = "absolute";
-      aBtn.style.left = "50%"; aBtn.style.top = "16px"; aBtn.style.transform = "translateX(-50%)";
-      bBtn.style.left = "50%"; bBtn.style.top = "92px"; bBtn.style.transform = "translateX(-50%)";
-      aBtn.style.zIndex = "99999";
-      bBtn.style.zIndex = "99999";
-    }
-
-    // Intro tap -> Q1
-    sceneIntro.addEventListener("click", () => startTrivia());
-
-    // Q-only tap -> answers
-    sceneQOnly.addEventListener("click", () => {
-      if(stage !== "only") return;
-      stage = "answers";
-      renderQAnswers();
-      fadeToScene(sceneQOnly, sceneQAnswers);
-    });
-
-    // Dodge for wrong answers on Q1 and Q3
-    function moveButtonAway(btn){
-      const pad = 12;
-      const rect = btn.getBoundingClientRect();
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-
-      const maxX = vw - rect.width - pad;
-      const maxY = vh - rect.height - pad;
-
-      const x = pad + Math.random() * Math.max(pad, maxX);
-      const y = pad + Math.random() * Math.max(pad, maxY);
-
-      btn.style.position = "fixed";      // move around whole screen
-      btn.style.left = `${x}px`;
-      btn.style.top = `${y}px`;
-      btn.style.transform = "none";
-      btn.style.zIndex = "99999";        // ALWAYS on top
-    }
-
-    // Handlers
-    aBtn.addEventListener("click", () => handleAnswer(true));
-    bBtn.addEventListener("click", () => handleAnswer(false));
-
-    // Hover/touch dodge only when current question says to dodge
-    bBtn.addEventListener("mouseenter", () => {
-      if(trivia[qi].dodgeWrong) moveButtonAway(bBtn);
-    });
-    bBtn.addEventListener("touchstart", (e) => {
-      if(trivia[qi].dodgeWrong){
-        e.preventDefault();
-        moveButtonAway(bBtn);
-      }
-    }, {passive:false});
-
-    function handleAnswer(isA){
-      const t = trivia[qi];
-      const chosen = isA ? t.correct : t.wrong;
-
-      if(chosen === t.correct){
-        triviaHint.textContent = t.rightMsg;
-
-        setTimeout(() => {
-          qi += 1;
-
-          if(qi >= trivia.length){
-            fadeToScene(sceneQAnswers, sceneGate2);
-            setTimeout(()=>codeInput2.focus(), 1600);
-          } else {
-            stage = "only";
-            renderQOnly();
-            fadeToScene(sceneQAnswers, sceneQOnly);
-          }
-        }, 1700); // slower pace
-
-      } else {
-        // Special behavior for Q2 wrong answer -> restart
-        if(qi === 1){
-          triviaHint.textContent = "Just for that... we're going to restart";
-          setTimeout(() => {
-            qi = 0;
-            stage = "only";
-            renderQOnly();
-            fadeToScene(sceneQAnswers, sceneQOnly);
-          }, 2000);
-          return;
-        }
-
-        // For other wrong answers that are not dodgy
-        if(!t.dodgeWrong){
-          triviaHint.textContent = "Try again 🐊💕";
-          setTimeout(()=> triviaHint.textContent="", 1500);
-        }
-      }
-    }
-
-    // Gate 2
-    function checkGate2(){
-      const entered = (codeInput2.value || "").trim();
-      if(entered === SECRET_CODE_2){
-        gateHint2.textContent = "";
-        fadeToScene(sceneGate2, sceneMovie);
-      } else {
-        gateHint2.textContent = "Nopeee 🐊 try again";
-        setTimeout(()=>{ gateHint2.textContent=""; codeInput2.focus(); }, 1400);
-      }
-    }
-
-    enterBtn2.addEventListener("click", checkGate2);
-    codeInput2.addEventListener("keydown", (e)=>{ if(e.key==="Enter") checkGate2(); });
-
-    // Movie: No button runs away (stays inside the card area)
-    function moveNoButton(){
-      const areaRect = movieArea.getBoundingClientRect();
-      const btnRect = noBtn.getBoundingClientRect();
-      const pad = 12;
-
-      const maxX = areaRect.width - btnRect.width - pad;
-      const maxY = areaRect.height - btnRect.height - pad;
-
-      const newX = pad + Math.random() * Math.max(0, maxX);
-      const newY = pad + Math.random() * Math.max(0, maxY);
-
-      noBtn.style.position = "absolute";
-      noBtn.style.left = `${newX}px`;
-      noBtn.style.top  = `${newY}px`;
-      noBtn.style.zIndex = "99999";
-    }
-
-    noBtn.addEventListener("mouseenter", moveNoButton);
-    noBtn.addEventListener("touchstart", (e) => {
-      e.preventDefault();
-      moveNoButton();
-    }, {passive:false});
-
-    // Yes celebration + updated message
-    yesBtn.addEventListener("click", () => {
-      movieHint.textContent = "WOOHOO 🐊💚! Do you want to watch Beast Games?";
-      launchConfetti();
-    });
-
-    // Confetti (slower + longer)
-    const confettiCanvas = document.getElementById("confetti");
-    const ctx = confettiCanvas.getContext("2d");
-    let confettiPieces = [];
-    let confettiAnim = null;
-
-    function resizeCanvas(){
-      confettiCanvas.width = window.innerWidth;
-      confettiCanvas.height = window.innerHeight;
-    }
-    window.addEventListener("resize", resizeCanvas);
-    resizeCanvas();
-
-    function launchConfetti(){
-      confettiCanvas.style.display = "block";
-      confettiPieces = [];
-      const count = 140;
-
-      for(let i=0;i<count;i++){
-        confettiPieces.push({
-          x: Math.random()*confettiCanvas.width,
-          y: -20 - Math.random()*confettiCanvas.height*0.25,
-          r: 2 + Math.random()*4,
-          vx: -1.2 + Math.random()*2.4,
-          vy: 1.6 + Math.random()*3.2,
-        });
-      }
-
-      const start = performance.now();
-      const duration = 4200;
-
-      if(confettiAnim) cancelAnimationFrame(confettiAnim);
-
-      function tick(now){
-        const t = now - start;
-        ctx.clearRect(0,0,confettiCanvas.width, confettiCanvas.height);
-
-        ctx.fillStyle = "rgba(255,255,255,0.95)";
-        for(const p of confettiPieces){
-          p.x += p.vx;
-          p.y += p.vy;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-          ctx.fill();
-        }
-
-        confettiPieces = confettiPieces.filter(p => p.y < confettiCanvas.height + 30);
-
-        if(t < duration){
-          confettiAnim = requestAnimationFrame(tick);
-        } else {
-          ctx.clearRect(0,0,confettiCanvas.width, confettiCanvas.height);
-          confettiCanvas.style.display = "none";
-        }
-      }
-      confettiAnim = requestAnimationFrame(tick);
-    }
-
-    // Focus first input
-    window.addEventListener("load", () => codeInput1.focus());
-  </script>
+
+<canvas id="confetti"></canvas>
+<div id="heartsLayer"></div>
+
+<div class="wrap">
+<div class="card">
+
+<!-- GATE 1 -->
+<div id="sceneGate1" class="scene active fade">
+<h1>Hello Michele Harianto 💕</h1>
+<div class="croc">🐊 🐊 🐊</div>
+<p>Please enter the code below 🐊</p>
+<div class="row">
+<input id="codeInput1" placeholder="enter secret code">
+<button class="btn" id="enterBtn1">Enter</button>
+</div>
+<div id="gateHint1"></div>
+</div>
+
+<!-- INTRO -->
+<div id="sceneIntro" class="scene">
+<h1>Okay we're going to play a little game (Trivia!)</h1>
+<p>tap to continue</p>
+</div>
+
+<!-- Q ONLY -->
+<div id="sceneQOnly" class="scene">
+<h1 id="qOnlyText"></h1>
+<p>tap to continue</p>
+</div>
+
+<!-- Q + ANSWERS -->
+<div id="sceneQAnswers" class="scene">
+<h2 id="qTopText"></h2>
+<div style="position:relative;height:170px;">
+<button class="answerBtn" id="aBtn"></button>
+<button class="answerBtn" id="bBtn"></button>
+</div>
+<div id="triviaHint"></div>
+</div>
+
+<!-- GATE 2 -->
+<div id="sceneGate2" class="scene">
+<h1>Okay thank you for playing! 💕🐊</h1>
+<p>Please enter the secret code from Angel after you guys talk...</p>
+<input id="codeInput2">
+<button class="btn" id="enterBtn2">Enter</button>
+<div id="gateHint2"></div>
+</div>
+
+<!-- MOVIE -->
+<div id="sceneMovie" class="scene">
+<h1>Movie night? 🍿🐊</h1>
+<p>Can you watch a movie tonight with me?</p>
+<div class="movieBtns" id="movieArea">
+<button id="yesBtn">Yes 💚</button>
+<button id="noBtn">No 🙈</button>
+</div>
+<div id="movieHint"></div>
+</div>
+
+</div>
+</div>
+
+<script>
+// PASSWORDS
+const SECRET_CODE_1 = "12345";
+const SECRET_CODE_2 = "1234082323";
+
+// TRIVIA
+const trivia = [
+{
+q:"Who is Angel's favorite person in the whole wide world?",
+correct:"Michele Oey Harianto",
+wrong:"anybody else",
+dodge:true,
+msg:"Yeah I know 🥰"
+},
+{
+q:"Who does Angel love very very much?",
+correct:"Michele Oey Harianto",
+wrong:"His 7 iron.",
+dodge:false,
+msg:"Yes, I love you more than golf 😏"
+},
+{
+q:"Will you please talk to Angel?",
+correct:"Yes (Pick me!)",
+wrong:"No",
+dodge:true,
+msg:"🥺💗"
+}
+];
+
+// Scenes
+const scenes = document.querySelectorAll(".scene");
+function showScene(s){
+scenes.forEach(x=>x.classList.remove("active"));
+s.classList.add("active");
+}
+
+// Gate 1
+enterBtn1.onclick = ()=>{
+if(codeInput1.value === SECRET_CODE_1){
+startHearts();
+showScene(sceneIntro);
+}else{
+gateHint1.textContent = "I know I'm a stupid butt face, but please ask me for the code I promise it'll be worth it";
+}
+};
+
+// Intro tap
+sceneIntro.onclick = ()=>{
+qi=0;
+renderQOnly();
+showScene(sceneQOnly);
+};
+
+let qi=0;
+
+function renderQOnly(){
+qOnlyText.textContent = trivia[qi].q;
+}
+
+sceneQOnly.onclick = ()=>{
+renderQAnswers();
+showScene(sceneQAnswers);
+};
+
+function renderQAnswers(){
+const t = trivia[qi];
+qTopText.textContent = t.q;
+aBtn.textContent = t.correct;
+bBtn.textContent = t.wrong;
+}
+
+// SAFE DODGE (never off screen)
+function moveButtonAway(btn){
+btn.style.position="fixed";
+btn.style.transform="none";
+
+const rect = btn.getBoundingClientRect();
+const vw = document.documentElement.clientWidth;
+const vh = document.documentElement.clientHeight;
+
+const pad=12;
+const maxX = vw - rect.width - pad;
+const maxY = vh - rect.height - pad;
+
+const x = Math.random()*maxX;
+const y = Math.random()*maxY;
+
+btn.style.left = x+"px";
+btn.style.top = y+"px";
+}
+
+bBtn.onmouseenter = ()=>{
+if(trivia[qi].dodge) moveButtonAway(bBtn);
+};
+
+bBtn.ontouchstart = (e)=>{
+if(trivia[qi].dodge){
+e.preventDefault();
+moveButtonAway(bBtn);
+}
+};
+
+aBtn.onclick = ()=>handleAnswer(true);
+bBtn.onclick = ()=>handleAnswer(false);
+
+function handleAnswer(correct){
+if(correct){
+triviaHint.textContent = trivia[qi].msg;
+setTimeout(()=>{
+qi++;
+if(qi>=trivia.length){
+showScene(sceneGate2);
+}else{
+renderQOnly();
+showScene(sceneQOnly);
+}
+},1500);
+}else{
+if(qi===1){
+triviaHint.textContent = "Just for that... we're going to restart";
+setTimeout(()=>{
+qi=0;
+renderQOnly();
+showScene(sceneQOnly);
+},2000);
+}
+}
+}
+
+// Gate 2
+enterBtn2.onclick = ()=>{
+if(codeInput2.value===SECRET_CODE_2){
+showScene(sceneMovie);
+}else{
+gateHint2.textContent="Nopeee 🐊 try again";
+}
+};
+
+// Movie dodge
+function moveNo(){
+moveButtonAway(noBtn);
+}
+noBtn.onmouseenter=moveNo;
+noBtn.ontouchstart=(e)=>{e.preventDefault();moveNo();};
+
+// Yes
+yesBtn.onclick=()=>{
+movieHint.textContent="WOOHOO 🐊💚! Do you want to watch Beast Games?";
+launchConfetti();
+};
+
+// Hearts
+function startHearts(){
+heartsLayer.style.display="block";
+setInterval(()=>{
+const h=document.createElement("div");
+h.className="heart";
+h.textContent="💕";
+h.style.left=Math.random()*window.innerWidth+"px";
+h.style.top=window.innerHeight+"px";
+heartsLayer.appendChild(h);
+setTimeout(()=>h.remove(),7000);
+},800);
+}
+
+// Confetti
+function launchConfetti(){
+confetti.style.display="block";
+setTimeout(()=>confetti.style.display="none",4000);
+}
+</script>
+
 </body>
 </html>
